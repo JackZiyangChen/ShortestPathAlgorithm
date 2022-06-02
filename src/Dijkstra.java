@@ -23,14 +23,14 @@ public class Dijkstra {
         private int y;
         private double shortestPath;
         private Point via;
-        private boolean visted;
+        private boolean visited;
 
         public Point(int x,int y){
             this.x = x;
             this.y = y;
             this.shortestPath = 99999;
             this.via = null;
-            this.visted = false;
+            this.visited = false;
         }
 
         public int getX() {
@@ -67,14 +67,14 @@ public class Dijkstra {
             this.via = via;
         }
 
-        public boolean isVisted() {
-            return visted;
+        public boolean isVisited() {
+            return visited;
         }
 
-        public void setVisted(boolean visted) {
-            this.visted = visted;
+        public void setVisited(boolean visited) {
+            this.visited = visited;
         }
-
+        
         @Override
         public int compareTo(Object t) {
             if(shortestPath < ((Point)t).getShortestPath()){
@@ -142,7 +142,7 @@ public class Dijkstra {
         for(int i = r-1; i<=r+1; i++){
             for(int j=c-1; j<=c+1; j++){
                 if(!(i==r && j==c) && isValidLocation(i,j)){
-                    if(grid[i][j] != null && !grid[i][j].isVisted()){
+                    if(grid[i][j] != null && !grid[i][j].isVisited()){
                         out.add(grid[i][j]);
                     }
                 }
@@ -163,7 +163,7 @@ public class Dijkstra {
 //            System.out.println("list pre-processing: " + list);
             Point curr = list.poll();
             
-            curr.setVisted(true);
+            curr.setVisited(true);
             ArrayList<Point> neighbors = getVisitableNeighbors(curr.getX(),curr.getY());
             
             for(int i=0;i<neighbors.size();i++){
@@ -232,11 +232,31 @@ public class Dijkstra {
         return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
     }
     
-    private void printGrid(){
+    private void debugPrintGrid(){
         System.out.print("{");
         for(Point[] pl:grid){
             for(Point P:pl){
                 System.out.print(P.getShortestPath() + ", ");
+            }
+            System.out.println();
+        }
+        System.out.print("}");
+    }
+    
+    public void printGrid(){
+        System.out.println("{");
+        for(Point[] pl:grid){
+            for(Point P:pl){
+                if(P==null){ 
+                    System.out.print("W ");
+                }
+                else{
+                    if(P.equals(start)) System.out.print("S ");
+                    else if(P.equals(end)) System.out.print("E ");
+                    else if(pointPathway().contains(P)) System.out.print("✓ ");
+                    else System.out.print(". ");
+                }
+                //System.out.print(P.getShortestPath() + ", ");
             }
             System.out.println();
         }
