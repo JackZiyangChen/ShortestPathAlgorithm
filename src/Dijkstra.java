@@ -141,7 +141,7 @@ public class Dijkstra {
         ArrayList<Point> out = new ArrayList<Point>();
         for(int i = r-1; i<=r+1; i++){
             for(int j=c-1; j<=c+1; j++){
-                if(!(i==r && j==c) && i<grid.length && j<grid[0].length && i>=0 && j>=0){
+                if(!(i==r && j==c) && isValidLocation(i,j)){
                     if(grid[i][j] != null && !grid[i][j].isVisted()){
                         out.add(grid[i][j]);
                     }
@@ -151,12 +151,18 @@ public class Dijkstra {
         return out;
     }
     
+    private boolean isValidLocation(int r, int c){
+        return r<grid.length && c<grid[0].length && r>=0 && c>=0;
+    }
+    
     public double run(){
         ArrayList<Point> list = new ArrayList<Point>();
-        Point curr = start;
-        do{
+        list.add(start);
+        while(!list.isEmpty()){
 //            System.out.println("curr: " + curr);
 //            System.out.println("list pre-processing: " + list);
+            Point curr = list.remove(0);
+            
             curr.setVisted(true);
             ArrayList<Point> neighbors = getVisitableNeighbors(curr.getX(),curr.getY());
             
@@ -178,8 +184,7 @@ public class Dijkstra {
 //            printGrid();
 //            if(list.isEmpty())
 //                return -1;
-            curr = list.remove(0);
-        }while(!list.isEmpty());
+        }
         return end.getShortestPath();
     }
     
