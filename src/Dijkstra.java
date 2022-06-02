@@ -1,7 +1,7 @@
 
+import DataStructures.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.PriorityQueue;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -156,12 +156,12 @@ public class Dijkstra {
     }
     
     public double run(){
-        ArrayList<Point> list = new ArrayList<Point>();
+        PriorityQueue<Point> list = new PriorityQueue<Point>(9999);
         list.add(start);
         while(!list.isEmpty()){
 //            System.out.println("curr: " + curr);
 //            System.out.println("list pre-processing: " + list);
-            Point curr = list.remove(0);
+            Point curr = list.poll();
             
             curr.setVisted(true);
             ArrayList<Point> neighbors = getVisitableNeighbors(curr.getX(),curr.getY());
@@ -178,7 +178,7 @@ public class Dijkstra {
                     list.add(p);
                 }
             }
-            Collections.sort(list); //NOTE: the original design was to use a priority queue, but the built-in priority queue is not quite working for our purposes
+//            Collections.sort(list); //NOTE: the original design was to use a priority queue, but the built-in priority queue is not quite working for our purposes
 //            System.out.println("list post-processing: " + list);
 //            System.out.println("list: " + list);
 //            printGrid();
