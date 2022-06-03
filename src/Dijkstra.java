@@ -105,7 +105,16 @@ public class Dijkstra {
     private Point end;
     
     public Dijkstra(int gridSize){
-        grid = new Point[gridSize][gridSize];
+        initGrid(gridSize,gridSize);
+    }
+    
+    public Dijkstra(int xSize, int ySize){
+        initGrid(xSize,ySize);
+//        System.out.println("{"+grid.length+", "+grid[0].length+"}");
+    }
+    
+    public void initGrid(int xSize, int ySize){
+        grid = new Point[xSize][ySize];
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[i].length;j++){
                 grid[i][j] = new Point(i,j);
@@ -113,14 +122,11 @@ public class Dijkstra {
         }
     }
     
-    public Dijkstra(int xSize, int ySize){
-        grid = new Point[xSize][ySize];
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[i].length;j++){
-                grid[i][j] = new Point(i,j);
-            }
-        }
-//        System.out.println("{"+grid.length+", "+grid[0].length+"}");
+    public void resetGame(){
+        this.start = null;
+        this.end = null;
+        int row = grid.length, col=grid[0].length;
+        initGrid(row,col);
     }
 
     public void setStart(int x, int y) {
@@ -191,7 +197,7 @@ public class Dijkstra {
     private ArrayList<Point> pointPathway(){
         ArrayList<Point> out = new ArrayList<Point>();
         Point p = end;
-        if(end.getVia() == null){
+        if(end==null || end.getVia() == null){
             out.add(new Point(-1,-1));
             return out;
         }
@@ -251,9 +257,9 @@ public class Dijkstra {
                     System.out.print("W ");
                 }
                 else{
-                    if(P.equals(start)) System.out.print("S ");
-                    else if(P.equals(end)) System.out.print("E ");
-                    else if(pointPathway().contains(P)) System.out.print("✓ ");
+                    if(start!=null && P.equals(start)) System.out.print("S ");
+                    else if(end!=null && P.equals(end)) System.out.print("E ");
+                    else if(!pointPathway().contains(new Point(-1,-1)) && pointPathway().contains(P)) System.out.print("✓ ");
                     else System.out.print(". ");
                 }
                 //System.out.print(P.getShortestPath() + ", ");
