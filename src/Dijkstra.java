@@ -103,6 +103,7 @@ public class Dijkstra {
     private Point[][] grid;
     private Point start;
     private Point end;
+    private ArrayList<Point> walls;
     
     public Dijkstra(int gridSize){
         initGrid(gridSize,gridSize);
@@ -120,6 +121,7 @@ public class Dijkstra {
                 grid[i][j] = new Point(i,j);
             }
         }
+        walls = new ArrayList<Point>();
     }
     
     public void resetGame(){
@@ -140,7 +142,15 @@ public class Dijkstra {
     }
     
     public void insertWall(int x, int y){
+        walls.add(grid[x][y]);
         grid[x][y] = null;
+    }
+    
+    public void resetAllWalls(){
+        for(Point p : walls){
+            grid[p.x][p.y] = new Point(p.x,p.y);
+        }
+        walls.clear();
     }
     
     private ArrayList<Point> getVisitableNeighbors(int r, int c){

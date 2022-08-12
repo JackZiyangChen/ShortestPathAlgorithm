@@ -181,6 +181,49 @@ public class Driver {
         }
         
         
+        //add walls
+        
+        System.out.println("----------------------");
+        System.out.println("Now let's add some walls");
+        confirmed = false;
+        while(!confirmed){
+            d.resetAllWalls();
+            System.out.println("");
+            System.out.println("Enter nothing to complete wall");
+            boolean finishedWalls = false;
+            while(!finishedWalls){
+                try{
+                    System.out.println("Enter a wall location (row, column) ");
+                    System.out.print("Enter \"done\" if done: ");
+                    input = sc.next();
+                    input = input.replace(" ", "");
+                    if(input.equalsIgnoreCase("done")){
+                        finishedWalls = true;
+                    }else{
+                        row = Integer.parseInt(input.split(",")[0]); col = Integer.parseInt(input.split(",")[1]);
+                        System.out.println("");
+                        d.insertWall(row, col);
+                    }
+                }catch(Exception e){
+                    if(e instanceof ArrayIndexOutOfBoundsException){
+                        System.out.println("Please enter a valid coordinate");
+                        System.out.println("----------------------");
+                    }else{
+                        e.printStackTrace();
+                        System.exit(1);
+                    }
+                }
+            }
+            System.out.println();
+            d.printGrid();
+            System.out.println();
+            System.out.println("Does this look right? (Y/N)");
+            input = sc.next();
+            confirmed = input.equalsIgnoreCase("y");
+            
+        }
+        
+        
         
     }
     
